@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        /* --- CSS (Giữ nguyên giao diện đẹp của bạn) --- */
+        /* --- CSS --- */
         :root { --primary-red: #d42426; --primary-green: #165b33; --gold: #ffd700; }
         body { margin: 0; padding: 0; font-family: 'Quicksand', sans-serif; overflow: hidden; background-color: #0f172a; height: 100vh; width: 100vw; color: white; }
         .hidden { display: none !important; }
@@ -19,15 +19,18 @@
         .btn:hover { transform: scale(1.05); background: #b01b1d; }
         .btn:active { transform: scale(0.95); }
         .btn:disabled { background: #555; cursor: not-allowed; border-color: #777; box-shadow: none; }
+        
         #stage-1 { background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1543589077-47d81606c1bf?q=80&w=1920&auto=format&fit=crop'); background-size: cover; background-position: center; }
         .input-box { background: rgba(255, 255, 255, 0.9); padding: 30px; border-radius: 15px; box-shadow: 0 0 20px rgba(255, 215, 0, 0.3); color: #333; max-width: 90%; width: 350px; }
         .input-box h2 { font-family: 'Mountains of Christmas', cursive; font-size: 2rem; color: var(--primary-green); margin-top: 0; }
         input[type="text"] { width: 80%; padding: 10px; border: 2px solid var(--primary-green); border-radius: 5px; font-size: 1rem; text-align: center; outline: none; }
+        
         #stage-2 { background-color: #000; position: relative; }
         .light-bulbs-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
         .bulb { position: absolute; width: 15px; height: 15px; border-radius: 50%; background: #222; transition: all 0.2s; opacity: 0; }
         .bulb.on { opacity: 1; box-shadow: 0 0 15px 5px currentColor; animation: flash 0.8s ease-in-out; }
         @keyframes flash { 0% { transform: scale(1); opacity: 0; } 10% { transform: scale(1.5); opacity: 1; } 50% { transform: scale(1.2); opacity: 0.8; } 100% { transform: scale(1); opacity: 0; } }
+        
         #stage-3 { background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364); position: relative; height: 100vh; width: 100vw; overflow: hidden; }
         .fireworks-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
         .firework-particle { position: absolute; width: 6px; height: 6px; border-radius: 50%; animation: explode 1s ease-out forwards; }
@@ -35,22 +38,40 @@
         .clouds-container { position: absolute; top: 0; left: 0; width: 100%; height: 50%; pointer-events: none; z-index: 1; }
         .cloud { position: absolute; width: 150px; opacity: 0.7; animation: floatCloud 30s linear infinite; }
         @keyframes floatCloud { from { transform: translateX(-200px); } to { transform: translateX(110vw); } }
-        .snow-hill { position: absolute; bottom: 0; left: 0; width: 100%; height: 25vh; background: white; border-radius: 100% 100% 0 0 / 50% 50% 0 0; transform: scaleX(1.5); z-index: 1; box-shadow: 0 0 30px rgba(255, 255, 255, 0.8); }
-        .christmas-tree { position: absolute; bottom: 3vh; left: 50%; transform: translateX(-50%); z-index: 5; width: 260px; height: auto; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; }
+        
+        /* --- ĐIỀU CHỈNH VỊ TRÍ CAO HƠN CHO MOBILE --- */
+        .snow-hill { position: absolute; bottom: 0; left: 0; width: 100%; height: 35vh; background: white; border-radius: 100% 100% 0 0 / 50% 50% 0 0; transform: scaleX(1.5); z-index: 1; box-shadow: 0 0 30px rgba(255, 255, 255, 0.8); }
+        
+        .christmas-tree { position: absolute; bottom: 15vh; left: 50%; transform: translateX(-50%); z-index: 5; width: 260px; height: auto; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; }
         .tree-img { width: 100%; height: auto; filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6)); }
         .tree-light { position: absolute; width: 10px; height: 10px; border-radius: 50%; z-index: 6; animation: treeBlink 1.5s infinite alternate; }
         @keyframes treeBlink { from { opacity: 0.6; transform: scale(0.8); box-shadow: 0 0 3px currentColor; } to { opacity: 1; transform: scale(1.2); box-shadow: 0 0 10px currentColor; } }
-        .star-top { font-size: 3rem; color: #ffd700; position: absolute; top: -2%; left: 55%; transform: translateX(-50%); filter: drop-shadow(0 0 15px gold); animation: twinkle 1s infinite alternate; z-index: 10; }
+        
+        .star-top { 
+            font-size: 3rem; 
+            color: #ffd700; 
+            position: absolute; 
+            top: -6%; 
+            left: 53.5%; 
+            transform: translateX(-50%); 
+            filter: drop-shadow(0 0 15px gold); 
+            animation: twinkle 1s infinite alternate; 
+            z-index: 10; 
+        }
         @keyframes twinkle { from { transform: translateX(-50%) scale(1); opacity: 0.8; } to { transform: translateX(-50%) scale(1.2); opacity: 1; } }
-        .santa-fly { position: absolute; top: 15%; left: -300px; width: 250px; z-index: 4; animation: flyAcross 20s linear infinite; }
+        
+        .santa-fly { position: absolute; top: 10%; left: -300px; width: 250px; z-index: 4; animation: flyAcross 20s linear infinite; }
         .santa-fly img { width: 100%; }
         @keyframes flyAcross { 0% { transform: translateX(0) translateY(0); } 25% { transform: translateX(30vw) translateY(-40px); } 50% { transform: translateX(60vw) translateY(0); } 75% { transform: translateX(90vw) translateY(-40px); } 100% { transform: translateX(120vw) translateY(0); } }
-        .decor-gift { position: absolute; bottom: 8vh; z-index: 6; filter: drop-shadow(0 0 8px rgba(255,255,255,0.6)); transition: transform 0.3s; }
+        
+        .decor-gift { position: absolute; z-index: 6; filter: drop-shadow(0 0 8px rgba(255,255,255,0.6)); transition: transform 0.3s; }
         .decor-gift:hover { transform: scale(1.1) translateY(-5px); }
-        #special-gift-container { position: absolute; bottom: 5vh; left: 50%; transform: translateX(-50%) scale(0); z-index: 100; transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-align: center; }
+        
+        #special-gift-container { position: absolute; bottom: 18vh; left: 50%; transform: translateX(-50%) scale(0); z-index: 100; transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-align: center; }
         #special-gift-container.show { transform: translateX(-50%) scale(1); }
         .big-gift-img { width: 140px; cursor: pointer; filter: drop-shadow(0 0 20px gold); animation: shake 2s infinite; }
         @keyframes shake { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(-8deg); } 75% { transform: rotate(8deg); } }
+        
         .snowflake { position: absolute; top: -10px; color: #fff; font-size: 1em; font-family: Arial, sans-serif; text-shadow: 0 0 5px #000; z-index: 5; animation: fall linear infinite; }
         @keyframes fall { to { transform: translateY(105vh); } }
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 200; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.5s; }
@@ -112,12 +133,12 @@
         </div>
         
         <!-- Hộp quà trang trí -->
-        <img src="https://firebasestorage.googleapis.com/v0/b/webai-54992.appspot.com/o/Gift_Flat_Icon_Vector.svg?alt=media&token=8bb72a2d-183c-462b-a1b8-e42af9bf52e0" class="decor-gift" style="bottom: 10vh; left: 10%; width: 65px;">
-        <img src="https://firebasestorage.googleapis.com/v0/b/webai-54992.appspot.com/o/Gift_Flat_Icon_Vector.svg?alt=media&token=8bb72a2d-183c-462b-a1b8-e42af9bf52e0" class="decor-gift" style="bottom: 8vh; right: 18%; width: 80px; filter: hue-rotate(90deg) drop-shadow(0 0 5px white);">
-        <img src="https://firebasestorage.googleapis.com/v0/b/webai-54992.appspot.com/o/Gift_Flat_Icon_Vector.svg?alt=media&token=8bb72a2d-183c-462b-a1b8-e42af9bf52e0" class="decor-gift" style="bottom: 12vh; right: 8%; width: 55px; filter: hue-rotate(45deg) drop-shadow(0 0 5px white);">
-        <img src="https://firebasestorage.googleapis.com/v0/b/webai-54992.appspot.com/o/Gift_Flat_Icon_Vector.svg?alt=media&token=8bb72a2d-183c-462b-a1b8-e42af9bf52e0" class="decor-gift" style="bottom: 10vh; left: 22%; width: 45px; filter: hue-rotate(180deg) drop-shadow(0 0 5px white);">
-        <img src="https://firebasestorage.googleapis.com/v0/b/webai-54992.appspot.com/o/Gift_Flat_Icon_Vector.svg?alt=media&token=8bb72a2d-183c-462b-a1b8-e42af9bf52e0" class="decor-gift" style="bottom: 13vh; left: 30%; width: 40px; filter: hue-rotate(270deg);">
-        <img src="https://firebasestorage.googleapis.com/v0/b/webai-54992.appspot.com/o/Gift_Flat_Icon_Vector.svg?alt=media&token=8bb72a2d-183c-462b-a1b8-e42af9bf52e0" class="decor-gift" style="bottom: 9vh; right: 30%; width: 50px; filter: hue-rotate(130deg);">
+        <img src="https://firebasestorage.googleapis.com/v0/b/webai-54992.appspot.com/o/Gift_Flat_Icon_Vector.svg?alt=media&token=8bb72a2d-183c-462b-a1b8-e42af9bf52e0" class="decor-gift" style="bottom: 22vh; left: 10%; width: 65px;">
+        <img src="https://firebasestorage.googleapis.com/v0/b/webai-54992.appspot.com/o/Gift_Flat_Icon_Vector.svg?alt=media&token=8bb72a2d-183c-462b-a1b8-e42af9bf52e0" class="decor-gift" style="bottom: 20vh; right: 18%; width: 80px; filter: hue-rotate(90deg) drop-shadow(0 0 5px white);">
+        <img src="https://firebasestorage.googleapis.com/v0/b/webai-54992.appspot.com/o/Gift_Flat_Icon_Vector.svg?alt=media&token=8bb72a2d-183c-462b-a1b8-e42af9bf52e0" class="decor-gift" style="bottom: 24vh; right: 8%; width: 55px; filter: hue-rotate(45deg) drop-shadow(0 0 5px white);">
+        <img src="https://firebasestorage.googleapis.com/v0/b/webai-54992.appspot.com/o/Gift_Flat_Icon_Vector.svg?alt=media&token=8bb72a2d-183c-462b-a1b8-e42af9bf52e0" class="decor-gift" style="bottom: 22vh; left: 22%; width: 45px; filter: hue-rotate(180deg) drop-shadow(0 0 5px white);">
+        <img src="https://firebasestorage.googleapis.com/v0/b/webai-54992.appspot.com/o/Gift_Flat_Icon_Vector.svg?alt=media&token=8bb72a2d-183c-462b-a1b8-e42af9bf52e0" class="decor-gift" style="bottom: 25vh; left: 30%; width: 40px; filter: hue-rotate(270deg);">
+        <img src="https://firebasestorage.googleapis.com/v0/b/webai-54992.appspot.com/o/Gift_Flat_Icon_Vector.svg?alt=media&token=8bb72a2d-183c-462b-a1b8-e42af9bf52e0" class="decor-gift" style="bottom: 21vh; right: 30%; width: 50px; filter: hue-rotate(130deg);">
 
         <!-- Hộp quà đặc biệt -->
         <div id="special-gift-container">
@@ -125,7 +146,7 @@
             <div class="btn" style="padding: 5px 20px; font-size: 1.1rem; margin-top: 10px;" onclick="openSpecialGift()">Mở Ngay 🎁</div>
         </div>
 
-        <!-- Logo Tiktok (Nút Admin & Link) -->
+        <!-- Logo Tiktok -->
         <img src="https://firebasestorage.googleapis.com/v0/b/webai-54992.appspot.com/o/logo-tiktok.png?alt=media&token=4473a42a-e492-4a4d-8821-ed9348ac2339" class="tiktok-logo" alt="TikTok" onclick="handleTikTokClick()">
     </div>
 
@@ -137,7 +158,7 @@
         </div>
     </div>
 
-    <!-- MODAL ADMIN (Google Sheets Version) -->
+    <!-- MODAL ADMIN -->
     <div id="admin-modal" class="modal">
         <div class="modal-content">
             <h2 style="color:#333; margin-top:0;">📋 Quản lý quà tặng</h2>
@@ -152,18 +173,16 @@
         </div>
     </div>
 
-    <!-- AUDIO (Đã thay đổi file và thêm autoplay) -->
+    <!-- AUDIO -->
     <audio id="bg-music" loop autoplay>
         <source src="nhacnoel.mp3" type="audio/mp3">
     </audio>
     <audio id="effect-music"></audio>
 
     <script>
-        // --- CẤU HÌNH QUAN TRỌNG (CẬP NHẬT) ---
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwjhTvWVWWLku1yEXAFwAiYrnTLiaW8YoQNtyl_kqGdTRLGQLcDfzINzA948pN1TiQ/exec"; 
         const GOOGLE_SHEET_LINK = "https://docs.google.com/spreadsheets/d/1rrLlJsrGmfxkkNlx9-bx1brRJ0KC0-176iPUAncTnEI/edit?gid=0#gid=0"; 
 
-        // --- CẤU HÌNH KHÁC ---
         let userName = "";
         let userId = "";
         let userIp = ""; 
@@ -187,20 +206,27 @@
             { code: "010", value: 5000, max: 1 }  
         ];
 
-        const songList = [
-            "nhacnoel4.mp3", 
-            "nhacnoel2.mp3", 
-            "nhacnoel3.mp3"
-        ];
+        const songList = ["nhacquatang.mp3", "nhacquatang2.mp3", "nhacquatang3.mp3"];
+        const songLinks = ["nhacquatang.mp3", "nhacquatang2.mp3", "nhacquatang3.mp3"];
         
-        // Link nhạc (Đã cập nhật tên file)
-        const songLinks = [
-            "nhacquatang.mp3",
-            "nhacquatang2.mp3",
-            "nhacquatang3.mp3"
+        // Danh sách Video tương ứng (Bạn cần tự chuẩn bị file video)
+        const videoList = [
+            "video1.mp4",
+            "video2.mp4",
+            "video3.mp4"
         ];
 
-        // --- IP FETCHING ---
+        function safePlay(audioElement) {
+            if (audioElement) {
+                const playPromise = audioElement.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log('Playback prevented:', error);
+                    });
+                }
+            }
+        }
+
         async function getIpAddress() {
             try {
                 const response = await fetch('https://api.ipify.org?format=json');
@@ -209,7 +235,6 @@
                 document.getElementById('ip-loading').innerText = "Đã sẵn sàng!";
                 document.getElementById('btn-submit').disabled = false;
             } catch (error) {
-                console.error("Lỗi lấy IP:", error);
                 userIp = "unknown_" + Date.now();
                 document.getElementById('ip-loading').innerText = "Chế độ offline";
                 document.getElementById('btn-submit').disabled = false;
@@ -222,16 +247,13 @@
             getIpAddress();
             
             const audio = document.getElementById('bg-music');
-            audio.play().catch(e => {
-                console.log("Trình duyệt chặn autoplay, chờ tương tác người dùng.");
-                document.body.addEventListener('click', function playAudio() {
-                    audio.play();
-                    document.body.removeEventListener('click', playAudio);
-                }, { once: true });
-            });
+            safePlay(audio);
+            document.body.addEventListener('click', function playAudio() {
+                safePlay(audio);
+                document.body.removeEventListener('click', playAudio);
+            }, { once: true });
         };
 
-        // --- LOGIC CHÍNH ---
         async function submitName() {
             const input = document.getElementById('user-name');
             const name = input.value.trim();
@@ -243,21 +265,33 @@
 
             document.getElementById('stage-1').classList.add('hidden');
             document.getElementById('stage-2').classList.remove('hidden');
-            createTreeLights();
+            createTreeLightsStage2();
         }
 
-        function createTreeLights() {
+        function createTreeLightsStage2() {
             const container = document.getElementById('bulbs-container');
             const colors = ['#ffd700', '#ff4500', '#00ff00', '#ff0000', '#800080'];
-            for (let i = 0; i < 8; i++) {
-                for (let j = 0; j < i + 1; j++) {
+            
+            for (let i = 0; i < 7; i++) {
+                const bulbsInRow = i + 1; 
+                const rowWidth = bulbsInRow * 40; 
+                
+                for (let j = 0; j < bulbsInRow; j++) {
                     const bulb = document.createElement('div');
                     bulb.classList.add('bulb');
-                    bulb.style.top = (15 + i * 10) + '%';
-                    bulb.style.left = (50 - (i * 6) / 2 + j * 6) + '%';
+                    bulb.style.top = (20 + i * 8) + '%'; 
+                    bulb.style.left = `calc(50% - ${rowWidth/2}px + ${j * 40}px + 20px)`; 
                     bulb.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
                     container.appendChild(bulb);
                 }
+            }
+            for(let k=0; k<2; k++) {
+                const bulb = document.createElement('div');
+                bulb.classList.add('bulb');
+                bulb.style.top = '80%'; 
+                bulb.style.left = `calc(50% - 20px + ${k * 40}px)`;
+                bulb.style.backgroundColor = '#8B4513'; 
+                container.appendChild(bulb);
             }
         }
 
@@ -283,10 +317,10 @@
         function startScene() {
             const audio = document.getElementById('bg-music');
             audio.volume = 0.6;
-            audio.play().catch(e => console.log("Cần tương tác"));
+            safePlay(audio);
             setInterval(createSnowflake, 150);
             setInterval(launchFirework, 800);
-            decorateRealTree();
+            decorateRealTree(); 
             setTimeout(() => {
                 document.getElementById('special-gift-container').classList.add('show');
             }, giftDelay);
@@ -299,18 +333,30 @@
             for(let i=0; i<45; i++) {
                 const light = document.createElement('div');
                 light.classList.add('tree-light');
-                
                 const topPercent = 8 + Math.random() * 65; 
                 const spreadFactor = (topPercent - 8) / 65; 
                 const maxSpread = spreadFactor * 35; 
                 const leftPercent = 50 + (Math.random() * maxSpread * 2 - maxSpread);
-
                 light.style.top = topPercent + '%';
                 light.style.left = leftPercent + '%';
                 light.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
                 light.style.animationDelay = Math.random() + 's';
-                
                 tree.appendChild(light);
+            }
+
+            for(let j=0; j<6; j++) {
+                const extraLight = document.createElement('div');
+                extraLight.classList.add('tree-light');
+                const topP = 25 + Math.random() * 50;
+                const spread = (topP - 8) / 65 * 35;
+                const leftP = 50 - (Math.random() * spread); 
+                
+                extraLight.style.top = topP + '%';
+                extraLight.style.left = leftP + '%';
+                extraLight.style.backgroundColor = '#ff0'; 
+                extraLight.style.boxShadow = "0 0 15px gold"; 
+                extraLight.style.animationDelay = Math.random() + 's';
+                tree.appendChild(extraLight);
             }
         }
 
@@ -368,7 +414,6 @@
                 detailInfo = `${prize.value}đ - Mã: ${prize.code}`;
             }
 
-            // Gửi dữ liệu QUAN TRỌNG: Sử dụng text/plain để tránh lỗi CORS
             sendToGoogleSheet(userName, userIp, giftType, detailInfo);
 
             showResult(giftType, giftMeta);
@@ -381,7 +426,7 @@
             fetch(GOOGLE_SCRIPT_URL, {
                 method: "POST",
                 mode: "no-cors",
-                headers: { "Content-Type": "text/plain;charset=utf-8" }, // FIX QUAN TRỌNG
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data)
             }).catch(e => console.log("Gửi Google Sheet lỗi:", e));
         }
@@ -390,20 +435,31 @@
             const modal = document.getElementById('result-modal');
             const body = document.getElementById('modal-body');
             modal.classList.add('active');
-            document.getElementById('bg-music').pause();
+            
+            const bgMusic = document.getElementById('bg-music');
+            if (bgMusic) bgMusic.pause();
 
             if (type === 'santa') {
-                const songUrl = songLinks[meta.songUrlIndex % songLinks.length];
+                const songIndex = meta.songUrlIndex % songList.length;
+                const songUrl = songLinks[songIndex];
+                const videoUrl = videoList[songIndex % videoList.length];
+
                 const effect = document.getElementById('effect-music');
                 effect.src = songUrl;
-                effect.play();
+                safePlay(effect);
                 body.innerHTML = `
                     <div class="santa-gift">
                         <h2>🎅 Ho Ho Ho!</h2>
-                        <img src="https://media.giphy.com/media/l1AvyLF0Sdg6wSHDq/giphy.gif" alt="Santa Singing">
+                        <!-- Video thay cho GIF -->
+                        <video src="${videoUrl}" autoplay loop muted playsinline style="width:100%; border-radius:10px; margin-bottom:10px;"></video>
+                        
                         <p>Ông già Noel hát tặng bạn ${userName}!</p>
-                        <p style="font-weight:bold; color:var(--primary-green)">${songList[meta.songUrlIndex]}</p>
-                        <p style="font-size:0.8rem; color: #666;">(Nhạc: ${songList[meta.songUrlIndex]})</p>
+                        <p style="font-weight:bold; color:var(--primary-green)">${songList[songIndex]}</p>
+                        
+                        <!-- Nút nghe nhạc thay cho dòng hiển thị tên file -->
+                        <button class="btn" onclick="document.getElementById('effect-music').play()" style="padding: 5px 15px; font-size: 0.9rem; margin-top: 5px;">
+                            <i class="fas fa-music"></i> Ấn vào để nghe
+                        </button>
                     </div>
                 `;
             } else if (type === 'wish') {
@@ -415,11 +471,14 @@
 
         function closeModal() {
             document.getElementById('result-modal').classList.remove('active');
-            document.getElementById('bg-music').play();
-            document.getElementById('effect-music').pause();
+            
+            const bgMusic = document.getElementById('bg-music');
+            safePlay(bgMusic);
+            
+            const effectMusic = document.getElementById('effect-music');
+            if (effectMusic) effectMusic.pause();
         }
 
-        // Logic TikTok: 1 click mở link, 3 click mở Admin
         let secretClickCount = 0;
         let secretClickTimer;
 
@@ -428,7 +487,6 @@
             clearTimeout(secretClickTimer);
             
             if (secretClickCount === 3) {
-                // 3 lần click liên tiếp -> Mở Admin
                 secretClickCount = 0;
                 const password = prompt("Nhập mật khẩu Admin:", "");
                 if (password === "123456") {
@@ -437,14 +495,12 @@
                     alert("Sai mật khẩu!");
                 }
             } else {
-                // Chờ một chút xem có click tiếp không
                 secretClickTimer = setTimeout(() => {
                     if (secretClickCount === 1) {
-                        // Chỉ click 1 lần -> Mở link TikTok
-                        window.open("https://www.tiktok.com/@l0t968ooo", "_blank");
+                        window.open("https://www.tiktok.com/@l0t968ooo ", "_blank");
                     }
                     secretClickCount = 0;
-                }, 400); // 400ms delay để phân biệt click đơn và click liên tục
+                }, 400);
             }
         }
 
